@@ -10,15 +10,17 @@ interface Props  {
 
 const CardList = ({searchResults,onPortfolioCreate}: Props) => {
   return (
-    <>
+    <div>
     {searchResults.length > 0 ? (
         searchResults.map((result)=> {
           return <Card id = {result.symbol} key={uuidv4()} result = {result} onPortfolioCreate={onPortfolioCreate} />
         })
       ):(
-        <h1>No Result</h1>
+        <p className="mb-3 mt-3 text-xl font-semibold text-center md:text-xl">
+        No Result
+      </p>
       )}
-    </>
+    </div>
   ) 
 }
 

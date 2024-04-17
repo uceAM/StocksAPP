@@ -5,6 +5,7 @@ import Search from './Components/Search/Search';
 import { CompanySearch } from './company';
 import { searchCompanies } from './api';
 import ListPortfolio from './Components/Portfolio/ListPortfolio/ListPortfolio';
+import Navbar from './Components/Navbar/Navbar';
 
 function App() {
   const [search,setSearch] = useState<string>("");
@@ -38,6 +39,7 @@ function App() {
     setPortfolioValues(portfolioValues.filter(value=>value !== e.target[0].value));
   };
   return <>
+    <Navbar/>
     <Search onSearchSubmit = {onSearchSubmit} search = {search} getSearchData ={getSearchData}/>
     <ListPortfolio portfolioValues = {portfolioValues} onPortfolioDelete ={onPortfolioDelete}/>
     <CardList searchResults ={searchResult} onPortfolioCreate={onPortfolioCreate}/>
