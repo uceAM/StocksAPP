@@ -4,6 +4,8 @@ import HomePage from '../Pages/HomePage/HomePage'
 import SearchPage from '../Pages/SearchPage/SearchPage'
 import CompanyPage from '../Pages/CompanyPage/CompanyPage'
 import App from '../App'
+import CompanyProfile from '../Components/CompanyProfile/CompanyProfile'
+import IncomeStatements from '../Components/IncomeStatements/IncomeStatements'
 
   const router = createBrowserRouter([
     {
@@ -20,7 +22,15 @@ import App from '../App'
         },
         {
           path:"company/:ticker",
-          element:<CompanyPage />
+          element:<CompanyPage />,
+          children:[{
+            path:"company-profile",
+            element:<CompanyProfile />
+          },
+          {
+            path:"income-statements",
+            element:<IncomeStatements />
+          }]
         }
       ]
     }
