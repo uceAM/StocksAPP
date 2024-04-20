@@ -1,15 +1,15 @@
 import React from 'react'
 import Table from '../../Components/Table/Table'
 import RatioList from '../../Components/RatioList/RatioList'
-import { TestDataCompany } from '../../Components/Table/TestData';
+import { TestDataCompany, testIncomeStatementData } from '../../TestData';
 
 interface Props  {
 }
-const data = TestDataCompany[0];
+const listData = TestDataCompany[0];
 
-type CompanyData = typeof data;
+type CompanyData = typeof listData;
 
-const configs = [
+const listConfig = [
     {
         label:"Company Name",
         render:(companyData:CompanyData) => companyData.companyName,
@@ -17,10 +17,25 @@ const configs = [
     },
 ];
 
+const tableData = testIncomeStatementData;
+
+type Company = (typeof tableData)[0];
+
+const tableConfig = [
+  {
+    label: "Date",
+    render: (company: Company) => company.calendarYear,
+  },
+  {
+    label: "Gross Profit",
+    render: (company: Company) => company.grossProfit,
+  },
+];
+
 const DesignPage = (props: Props) => {
   return <>
-    <RatioList configs={configs} data = {data}/>
-    <Table />
+    <RatioList configs={listConfig} data = {listData}/>
+    <Table configs={tableConfig} data = {tableData}/>
     </>
 }
 
