@@ -9,7 +9,7 @@ import Tile from '../../Components/Tile/Tile';
 interface Props {}
 
 const CompanyPage = (props: Props) => {
-  let {ticker} = useParams();
+  let {ticker} = useParams<string>();
   const [company,setCompany] = useState<CompanyProfile>();
   useEffect(()=>{
     const getCompanyProfile = async() => {
@@ -18,17 +18,24 @@ const CompanyPage = (props: Props) => {
     }
     getCompanyProfile();
     console.log('UseEffect');
-  },[ticker]);
+  },[]); //check
   
   return (
-    <>{company?(
-      <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden">
-        <Sidebar />
-        <CompanyDashboard> <Tile title='Company Name' details={company.companyName}></Tile></CompanyDashboard>
+    <>
+      {company? (
+        <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden">
+          <Sidebar />
+          <CompanyDashboard ticker={ticker!}>
+            <Tile title="Company Name" details="name"
+            //{company.companyName}
+            ></Tile>
+          </CompanyDashboard>
         </div>
-    ):
-    <div>No such Company found</div>}</>
-  )
+      ) : (
+        <div>No such Company found</div>
+      )}
+    </>
+  );
 }
 
 export default CompanyPage

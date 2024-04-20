@@ -1,13 +1,10 @@
 import axios from "axios"
-import { CompanyProfile, CompanySearch } from "./company";
+import { CompanyKeyMetrics, CompanyProfile, CompanySearch } from "./company";
 
-interface searchResponse{
-    data:CompanySearch[];
-}
 
 export const searchCompanies = async (query:string) => {
     try{
-        const data = await axios.get<searchResponse>(
+        const data = await axios.get<CompanySearch[]>(
             `https://financialmodelingprep.com/api/v3/search?query=${query}&limit=10&exchange=NASDAQ&apikey=${process.env.REACT_APP_API}`
         );
         return data;
@@ -30,4 +27,13 @@ export const getCompanyDetails = async (query:string)=>{
         console.log(`api error:${error.message}`);
     }
 
+}
+
+export const getKeyMetrics = async (query:string)=>{
+    try{
+        const data= await axios.get<CompanyKeyMetrics[]>(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${query}?apikey=${process.env.REACT_APP_API}`);
+        return data;
+    } catch(error:any) {
+        console.log('unknown API Error' + error.message);
+    }
 }
