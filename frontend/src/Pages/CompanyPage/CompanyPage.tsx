@@ -17,13 +17,14 @@ const CompanyPage = (props: Props) => {
       setCompany(companyDetails?.data[0]);
     }
     getCompanyProfile();
-  },[company]);
+    console.log('UseEffect');
+  },[ticker]);
   
   return (
-    <>{true?(
+    <>{company?(
       <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden">
         <Sidebar />
-        <CompanyDashboard> <Tile title='Company Name' details='Company in Detail'></Tile></CompanyDashboard>
+        <CompanyDashboard> <Tile title='Company Name' details={company.companyName}></Tile></CompanyDashboard>
         </div>
     ):
     <div>No such Company found</div>}</>

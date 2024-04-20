@@ -6,6 +6,7 @@ import CompanyPage from '../Pages/CompanyPage/CompanyPage'
 import App from '../App'
 import CompanyProfile from '../Components/CompanyProfile/CompanyProfile'
 import IncomeStatements from '../Components/IncomeStatements/IncomeStatements'
+import DesignPage from '../Pages/DesignPage/DesignPage'
 
   const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ import IncomeStatements from '../Components/IncomeStatements/IncomeStatements'
             path:"income-statements",
             element:<IncomeStatements />
           }]
+        },
+        {
+          path:"design-page",
+          element:<DesignPage />
         }
       ]
     }
