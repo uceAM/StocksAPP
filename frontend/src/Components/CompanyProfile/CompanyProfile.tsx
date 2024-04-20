@@ -72,10 +72,12 @@ const CompanyProfile = (props: Props) => {
   useEffect(() => {
     const getTTM = async () => {
       const result = await getKeyMetrics(ticker);
-      setCompanyTTM(result?.data[0]);
+      setCompanyTTM((prev) => {
+        return typeof prev === 'undefined'? result?.data[0]:prev;
+      });
     };
     getTTM();
-  }, []); //check
+  }, [ticker]); //check
   return companyTTM ? (
     <RatioList configs={tableConfig} data={companyTTM} />
   ) : (

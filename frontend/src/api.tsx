@@ -22,6 +22,7 @@ export const searchCompanies = async (query:string) => {
 export const getCompanyDetails = async (query:string)=>{
     try{
     const result = await axios.get<CompanyProfile[]>(`https://financialmodelingprep.com/api/v3/profile/${query}?apikey=${process.env.REACT_APP_API}`);
+    console.log('calling1');
     return result;
     } catch (error:any){
         console.log(`api error:${error.message}`);
@@ -32,6 +33,7 @@ export const getCompanyDetails = async (query:string)=>{
 export const getKeyMetrics = async (query:string)=>{
     try{
         const data= await axios.get<CompanyKeyMetrics[]>(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${query}?apikey=${process.env.REACT_APP_API}`);
+        console.log('calling2');
         return data;
     } catch(error:any) {
         console.log('unknown API Error' + error.message);

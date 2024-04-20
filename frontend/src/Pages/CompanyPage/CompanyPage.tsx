@@ -18,7 +18,7 @@ const CompanyPage = (props: Props) => {
     }
     getCompanyProfile();
     console.log('UseEffect');
-  },[]); //check
+  },[ticker]); //check
   
   return (
     <>
@@ -26,9 +26,7 @@ const CompanyPage = (props: Props) => {
         <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden">
           <Sidebar />
           <CompanyDashboard ticker={ticker!}>
-            <Tile title="Company Name" details="name"
-            //{company.companyName}
-            ></Tile>
+            <Tile title="Company Name" details={company.companyName}></Tile>
           </CompanyDashboard>
         </div>
       ) : (
