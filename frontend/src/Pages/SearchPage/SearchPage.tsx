@@ -54,7 +54,7 @@ function SearchPage() {
         onPortfolioDelete={onPortfolioDelete}
       />
       {searching ? (
-        <Spinner />
+        <Spinner colour="blue"/>
       ) : (
         <CardList
           searchResults={searchResult}
