@@ -329,7 +329,7 @@ export interface CompanyCompData {
   peersList: string[];
 }
 
-export interface CompanyTenK {
+export interface CompanySecFiling {
   symbol: string;
   fillingDate: string;
   acceptedDate: string;
