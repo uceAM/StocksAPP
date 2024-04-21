@@ -18,6 +18,9 @@ const Sidebar = (props: Props) => {
                   <Link to= "income-statements" className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
                     <h6 className="ml-3">Income Statement</h6>
                   </Link>
+                  <Link to= "balance-sheets" className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+                    <h6 className="ml-3">Balance Sheets</h6>
+                  </Link>
                 </div>
               </div>
             </div>

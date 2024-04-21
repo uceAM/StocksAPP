@@ -7,6 +7,7 @@ import App from '../App'
 import CompanyProfile from '../Components/CompanyProfile/CompanyProfile'
 import IncomeStatements from '../Components/IncomeStatements/IncomeStatements'
 import DesignPage from '../Pages/DesignPage/DesignPage'
+import BalanceSheet from '../Components/BalanceSheet/BalanceSheet'
 
   const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ import DesignPage from '../Pages/DesignPage/DesignPage'
           {
             path:"income-statements",
             element:<IncomeStatements />
+          },
+          {
+            path:"balance-sheets",
+            element:<BalanceSheet />
           }]
         },
         {
