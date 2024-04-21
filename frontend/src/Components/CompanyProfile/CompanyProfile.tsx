@@ -69,13 +69,11 @@ const tableConfig = [
 const CompanyProfile = (props: Props) => {
   let ticker = useOutletContext<string>();
   const [companyTTM, setCompanyTTM] = useState<CompanyKeyMetrics>();
+  const getTTM = async () => {
+    const result = await getKeyMetrics(ticker);
+    setCompanyTTM( result?.data[0]);
+  };
   useEffect(() => {
-    const getTTM = async () => {
-      const result = await getKeyMetrics(ticker);
-      setCompanyTTM((prev) => {
-        return typeof prev === 'undefined'? result?.data[0]:prev;
-      });
-    };
     getTTM();
   }, [ticker]); //check
   return companyTTM ? (

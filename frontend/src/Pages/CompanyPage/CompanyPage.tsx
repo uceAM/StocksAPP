@@ -11,13 +11,12 @@ interface Props {}
 const CompanyPage = (props: Props) => {
   let {ticker} = useParams<string>();
   const [company,setCompany] = useState<CompanyProfile>();
+  const getCompanyProfile = async() => {
+    const companyDetails= await getCompanyDetails(ticker!);
+    setCompany(companyDetails?.data[0]);
+  }
   useEffect(()=>{
-    const getCompanyProfile = async() => {
-      const companyDetails= await getCompanyDetails(ticker!);
-      setCompany(companyDetails?.data[0]);
-    }
     getCompanyProfile();
-    console.log('UseEffect');
   },[ticker]); //check
   
   return (

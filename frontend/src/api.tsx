@@ -42,6 +42,7 @@ export const getKeyMetrics = async (query:string)=>{
 export const getIncomeStatement = async (query:string) =>{
     try{
         const data = axios.get<CompanyIncomeStatement[]>(`https://financialmodelingprep.com/api/v3/income-statement/${query}?limit=5&apikey=${process.env.REACT_APP_API}`);
+        console.log('calling3');
         return data;
     } catch(error:any) {
         console.log('API error'+ error.message);

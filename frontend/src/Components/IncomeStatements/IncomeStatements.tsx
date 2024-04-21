@@ -64,12 +64,12 @@ const configs = [
 
 const IncomeStatements = (props: Props) => {
   const [companyIncome, setCompanyIncome] = useState<CompanyIncomeStatement[]>();
-let ticker = useOutletContext<string>();
-useEffect(()=>{
   const getIncome= async ()=>{
     const result = await getIncomeStatement(ticker);
     setCompanyIncome(result?.data)
   }
+let ticker = useOutletContext<string>();
+useEffect(()=>{
   getIncome();
 },[ticker])
   return ( companyIncome?(
