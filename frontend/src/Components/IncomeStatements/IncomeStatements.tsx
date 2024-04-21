@@ -3,6 +3,7 @@ import { CompanyIncomeStatement } from '../../company';
 import { getIncomeStatement } from '../../api';
 import { useOutletContext } from 'react-router';
 import Table from '../Table/Table';
+import Spinner from '../Spinner/Spinner';
 
 interface Props {}
 const configs = [
@@ -75,7 +76,7 @@ useEffect(()=>{
   return ( companyIncome?(
     <Table configs={configs} data={companyIncome} />
   ):(
-    <h1>Loading...</h1>
+    <Spinner />
   )
   )
 }
