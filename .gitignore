@@ -5,6 +5,7 @@
 backend/StocksAPI/StocksAPI/bin
 backend/StocksAPI/StocksAPI/obj
 backend/StocksAPI/StocksAPI/Migrations
+backend/StocksAPI/StocksAPI/StocksAPI.csproj.user
 
 # testing
 
