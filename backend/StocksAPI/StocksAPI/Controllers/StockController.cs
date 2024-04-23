@@ -16,7 +16,7 @@ public class StockController : ControllerBase
         _context = context;
     }
     [HttpGet]
-    public IActionResult getAllStocks()
+    public IActionResult GetAllStocks()
     {
         var data = _context.Stock.Select(a => a.ToStockDto()).ToList();
 
@@ -25,7 +25,7 @@ public class StockController : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
-    public IActionResult getStockById([FromRoute]int id)
+    public IActionResult GetStockById([FromRoute]int id)
     {
         var data = _context.Stock.Find(id);
         if (data == null)
@@ -42,10 +42,10 @@ public class StockController : ControllerBase
         {
             return BadRequest();
         }
-        var model = newData.toStock();
+        var model = newData.ToStock();
         _context.Stock.Add(model);
         _context.SaveChanges();
-        Console.WriteLine(nameof(getStockById));
-        return CreatedAtAction(nameof(getStockById), new {model.Id},model.ToStockDto());
+        Console.WriteLine(nameof(GetStockById));
+        return CreatedAtAction(nameof(GetStockById), new {model.Id},model.ToStockDto());
     }
 }
