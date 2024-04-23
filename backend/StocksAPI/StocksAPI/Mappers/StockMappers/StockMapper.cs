@@ -3,34 +3,33 @@ using StocksAPI.Dto.StockDto;
 using StocksAPI.Models;
 using System;
 
-namespace StocksAPI.Mapper
+namespace StocksAPI.Mapper;
+
+public static class StockMapper
 {
-	public static class StockMapper
+public static StockDto ToStockDto(this Stock StockModel)
 	{
-	public static StockDto ToStockDto(this Stock StockModel)
+		return new StockDto
 		{
-			return new StockDto
-			{
                 Id = StockModel.Id,
                 Symbol = StockModel.Symbol,
-				CompanyName = StockModel.CompanyName,
+			CompanyName = StockModel.CompanyName,
                 Purchase = StockModel.Purchase,
                 Dividend = StockModel.Dividend,
                 Industry = StockModel.Industry,
-				MarketCap = StockModel.MarketCap,
-			};
-		}
-	public static Stock toStock(this CreateStockDto newData)
+			MarketCap = StockModel.MarketCap,
+		};
+	}
+public static Stock toStock(this CreateStockDto newData)
+	{
+		return new Stock
 		{
-			return new Stock
-			{
-				Symbol = newData.Symbol,
-				CompanyName = newData.CompanyName,
-				Purchase = newData.Purchase,
-				Dividend = newData.Dividend,
-				Industry = newData.Industry,
-				MarketCap = newData.MarketCap,
-			};
-		}
+			Symbol = newData.Symbol,
+			CompanyName = newData.CompanyName,
+			Purchase = newData.Purchase,
+			Dividend = newData.Dividend,
+			Industry = newData.Industry,
+			MarketCap = newData.MarketCap,
+		};
 	}
 }

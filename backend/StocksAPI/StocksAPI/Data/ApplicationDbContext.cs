@@ -4,15 +4,14 @@ using System;
 
 
 
-namespace StocksAPI.Data
-{
-    public class ApplicationDbContext : DbContext
-    {
-        public ApplicationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
-        {
+namespace StocksAPI.Data;
 
-        }
-        public DbSet<Stock> Stock { get; set; }
-        public DbSet<Comment> Comment { get; set; }
+public class ApplicationDbContext : DbContext
+{
+    public ApplicationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+    {
+
     }
+    public DbSet<Stock> Stock { get; set; }
+    public DbSet<Comment> Comment { get; set; }
 }
