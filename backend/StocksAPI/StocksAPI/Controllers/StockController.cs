@@ -10,11 +10,12 @@ namespace StocksAPI.Controllers;
 [ApiController]
 public class StockController : ControllerBase
 {
-    private  readonly ApplicationDbContext _context; 
+    private readonly ApplicationDbContext _context;
     public StockController(ApplicationDbContext context)
     {
         _context = context;
     }
+
     [HttpGet]
     public IActionResult GetAllStocks()
     {
@@ -22,10 +23,11 @@ public class StockController : ControllerBase
 
         return Ok(data);
     }
+
     [HttpGet("{id}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
-    public IActionResult GetStockById([FromRoute]int id)
+    public IActionResult GetStockById([FromRoute] int id)
     {
         var data = _context.Stock.Find(id);
         if (data == null)
@@ -34,11 +36,12 @@ public class StockController : ControllerBase
         }
         return Ok(data.ToStockDto());
     }
+
     [HttpPost]
     [ProducesResponseType(201)]
-    public IActionResult CreateStocks([FromBody]CreateStockDto newData)
+    public IActionResult CreateStocks([FromBody] CreateStockDto newData)
     {
-        if(newData == null)
+        if (newData == null)
         {
             return BadRequest();
         }
@@ -46,6 +49,26 @@ public class StockController : ControllerBase
         _context.Stock.Add(model);
         _context.SaveChanges();
         Console.WriteLine(nameof(GetStockById));
-        return CreatedAtAction(nameof(GetStockById), new {model.Id},model.ToStockDto());
+        return CreatedAtAction(nameof(GetStockById), new { model.Id }, model.ToStockDto());
+    }
+
+    [HttpPut("update/{id}")]
+    [ProducesResponseType(statusCode: 204)]
+    [ProducesResponseType(statusCode: 400)]
+    public IActionResult UpdateStocks([FromRoute] int id, [FromBody] CreateStockDto updateData)
+    {
+        var dbStock = _context.Stock.Find(id);
+        if (dbStock == null)
+        {
+            return BadRequest();
+        }
+        dbStock.Symbol = updateData.Symbol;
+        dbStock.CompanyName = updateData.CompanyName;
+        dbStock.MarketCap =  updateData.MarketCap;
+        dbStock.Purchase= updateData.Purchase;
+        dbStock.Industry = updateData.Industry;
+        dbStock.Dividend = updateData.Dividend;
+        _context.SaveChanges();
+       return NoContent();
     }
 }
