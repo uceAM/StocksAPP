@@ -7,8 +7,8 @@ namespace StocksAPI.Interfaces
     {
         public Task<List<Stock>> GetAllStock();
         public Task<Stock?> GetStock(int id);
-        public Task AddStock(Stock stock);
+        public Task<bool> AddStock(Stock stock);
         public Task<Stock> RemoveStock(Stock stock);
-        public Task UpdateStock(Stock stock, CreateStockDto userStock);
+        public Task<bool> UpdateStock(Stock stock, CreateStockDto userStock);
     }
 }

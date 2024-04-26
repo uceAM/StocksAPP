@@ -15,11 +15,11 @@ namespace StocksAPI.Repositories
             _context = context;
         }
 
-        public async Task AddStock(Stock stock)
+        public async Task<bool> AddStock(Stock stock)
         {
             await _context.Stock.AddAsync(stock);
             await _context.SaveChangesAsync();
-            return;
+            return true;
         }
 
         public async Task<List<Stock>> GetAllStock()
@@ -41,7 +41,7 @@ namespace StocksAPI.Repositories
             return model;
         }
 
-        public async Task UpdateStock(Stock dbStock, CreateStockDto updateData)
+        public async Task<bool> UpdateStock(Stock dbStock, CreateStockDto updateData)
         {
             dbStock.Symbol = updateData.Symbol;
             dbStock.CompanyName = updateData.CompanyName;
@@ -50,7 +50,7 @@ namespace StocksAPI.Repositories
             dbStock.Industry = updateData.Industry;
             dbStock.Dividend = updateData.Dividend;
             await _context.SaveChangesAsync();
-            return;
+            return true;
         }
     }
 }

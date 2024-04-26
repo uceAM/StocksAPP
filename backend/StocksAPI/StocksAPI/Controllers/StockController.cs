@@ -46,9 +46,9 @@ public class StockController : ControllerBase
             return BadRequest();
         }
         var model = newData.ToStock();
-        await _stockService.AddStock(model);
-
-        return CreatedAtAction(nameof(GetStockById), new { model.Id }, model.ToStockDto());
+        if(await _stockService.AddStock(model))
+            return CreatedAtAction(nameof(GetStockById), new { model.Id }, model.ToStockDto());
+        return BadRequest();
     }
 
     [HttpPut("{id}")]
@@ -61,8 +61,9 @@ public class StockController : ControllerBase
         {
             return BadRequest();
         }
-        await _stockService.UpdateStock(dbStock, updateData);
-        return NoContent();
+        if(await _stockService.UpdateStock(dbStock, updateData))
+            return NoContent();
+        return BadRequest();
     }
     [HttpDelete("{id}")]
     [ProducesResponseType(200)]
