@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StocksAPI.Data;
+using StocksAPI.Interfaces;
+using StocksAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"));
 });
+builder.Services.AddScoped<IStockService, StockService>();
 
 var app = builder.Build();
 
