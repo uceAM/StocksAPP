@@ -52,7 +52,7 @@ public class StockController : ControllerBase
         return CreatedAtAction(nameof(GetStockById), new { model.Id }, model.ToStockDto());
     }
 
-    [HttpPut("update/{id}")]
+    [HttpPut("{id}")]
     [ProducesResponseType(statusCode: 204)]
     [ProducesResponseType(statusCode: 400)]
     public IActionResult UpdateStocks([FromRoute] int id, [FromBody] CreateStockDto updateData)
@@ -64,11 +64,23 @@ public class StockController : ControllerBase
         }
         dbStock.Symbol = updateData.Symbol;
         dbStock.CompanyName = updateData.CompanyName;
-        dbStock.MarketCap =  updateData.MarketCap;
-        dbStock.Purchase= updateData.Purchase;
+        dbStock.MarketCap = updateData.MarketCap;
+        dbStock.Purchase = updateData.Purchase;
         dbStock.Industry = updateData.Industry;
         dbStock.Dividend = updateData.Dividend;
         _context.SaveChanges();
-       return NoContent();
+        return NoContent();
+    }
+    [HttpDelete("{id}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    public IActionResult DeleteStockById([FromRoute]int id)
+    {
+        var toDelete = _context.Stock.Find(id);
+        if (toDelete == null)
+            return NotFound();
+        _context.Remove(toDelete);
+        _context.SaveChanges();
+        return Ok(toDelete.ToStockDto());
     }
 }
