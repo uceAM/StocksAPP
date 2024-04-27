@@ -1,5 +1,6 @@
 ﻿using StocksAPI.Dto.Stock;
 using StocksAPI.Dto.StockDto;
+using StocksAPI.Mappers.CommentMappers;
 using StocksAPI.Models;
 using System;
 
@@ -18,6 +19,7 @@ public static class StockMapper
             Dividend = StockModel.Dividend,
             Industry = StockModel.Industry,
             MarketCap = StockModel.MarketCap,
+            Comments = StockModel.Comments.Select(c => c.ToCommentDto()).ToList(),
         };
     }
     public static Stock ToStock(this CreateStockDto newData)

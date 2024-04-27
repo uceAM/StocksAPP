@@ -1,4 +1,5 @@
 ﻿namespace StocksAPI.Dto.Stock;
+using StocksAPI.Dto.Comment;
 
 public class StockDto
 {
@@ -9,4 +10,5 @@ public class StockDto
     public decimal Dividend { get; set; }
     public string Industry { get; set; } = string.Empty;
     public long MarketCap { get; set; }
+    public List<CommentDto>? Comments {get; set;}
 }
