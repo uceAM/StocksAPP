@@ -58,16 +58,32 @@ public class CommentController : ControllerBase
             return CreatedAtAction(nameof(GetCommentById), new { model.Id }, model.ToCommentDto());
         return BadRequest();
     }
-    //[HttpPut("{id}")]
-    //[ProducesResponseType(200)]
-    //[ProducesResponseType(400)]
-    //public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] CreateCommentDto updateData)
-    //{
-    //    if (id < 0 || updateData == null)
-    //    {
-    //        return BadRequest();
-    //    }
-    //    var dbComment = await _commentService.GetComment(id);
-    //    return Ok();
-    //}
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> DeleteById(int id)
+    {
+        var dbComment= await _commentService.GetComment(id);
+        if(dbComment == null)
+            return NotFound();
+        await _commentService.RemoveComment(dbComment);
+        return Ok(dbComment.ToCommentDto());
+    }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] CreateCommentDto updateData)
+    {
+        if (id < 0 || updateData == null)
+        {
+            return BadRequest();
+        }
+        var dbComment = await _commentService.GetComment(id);
+        if (dbComment == null)
+            return NotFound();
+        await _commentService.UpdateComment(dbComment, updateData);
+        return NoContent();
+    }
 }
