@@ -22,16 +22,24 @@ public class CommentController : ControllerBase
     [ProducesResponseType(400)]
     public async Task<IActionResult> GetAllComments()
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var listComment = await _commentService.GetAllComments();
         var data = listComment.Select(a => a.ToCommentDto());
         return Ok(data);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     public async Task<IActionResult> GetCommentById([FromRoute] int id)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var data = await _commentService.GetComment(id);
         if (data == null)
         {
@@ -40,7 +48,7 @@ public class CommentController : ControllerBase
         return Ok(data?.ToCommentDto());
     }
 
-    [HttpPost("{stockId}")]
+    [HttpPost("{stockId:int}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(404)]
@@ -59,26 +67,30 @@ public class CommentController : ControllerBase
         return BadRequest();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     public async Task<IActionResult> DeleteById(int id)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var dbComment= await _commentService.GetComment(id);
         if(dbComment == null)
-            return NotFound();
+            return NotFound($"Comment with id {id} does not exist");
         await _commentService.RemoveComment(dbComment);
         return Ok(dbComment.ToCommentDto());
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
     public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] CreateCommentDto updateData)
     {
-        if (id < 0 || updateData == null)
+        if (id < 0 || updateData == null || !ModelState.IsValid)
         {
-            return BadRequest();
+            return BadRequest(ModelState);
         }
         var dbComment = await _commentService.GetComment(id);
         if (dbComment == null)

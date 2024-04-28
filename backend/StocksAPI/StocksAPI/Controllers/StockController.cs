@@ -19,16 +19,24 @@ public class StockController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllStocks()
     {
+        if(!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var _ = await _stockService.GetAllStock();
         var data = _.Select(a => a.ToStockDto());
         return Ok(data);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> GetStockById([FromRoute] int id)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var data = await _stockService.GetStock(id);
         if (data == null)
         {
@@ -41,6 +49,10 @@ public class StockController : ControllerBase
     [ProducesResponseType(201)]
     public async Task<IActionResult> CreateStocks([FromBody] CreateStockDto newData)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         if (newData == null)
         {
             return BadRequest();
@@ -51,11 +63,15 @@ public class StockController : ControllerBase
         return BadRequest();
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(statusCode: 204)]
     [ProducesResponseType(statusCode: 400)]
     public async Task<IActionResult> UpdateStocks([FromRoute] int id, [FromBody] CreateStockDto updateData)
     {
+        if (!ModelState.IsValid || updateData ==null)
+        {
+            return BadRequest(ModelState);
+        }
         var dbStock = await _stockService.GetStock(id);
         if (dbStock == null)
         {
@@ -65,11 +81,15 @@ public class StockController : ControllerBase
             return NoContent();
         return BadRequest();
     }
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> DeleteStockById([FromRoute] int id)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var toDelete = await _stockService.GetStock(id);
         if (toDelete == null)
             return NotFound();
