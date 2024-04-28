@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StocksAPI.Data;
 using StocksAPI.Dto.StockDto;
+using StocksAPI.Helpers;
 using StocksAPI.Interfaces;
 using StocksAPI.Models;
 
@@ -21,15 +22,24 @@ public class StockService : IStockService
         return true;
     }
 
-    public async Task<List<Stock>> GetAllStock()
+    public async Task<List<Stock>> GetAllStock(StockQueryObject query)
     {
-        var data = await _context.Stock.Include(c => c.Comments).ToListAsync();
-        return data;
+        var data = _context.Stock.Include(c => c.Comments).AsQueryable();
+        // Filtering based on query params
+        if (!string.IsNullOrEmpty(query.Symbol))
+        {
+            data = data.Where(s => s.Symbol.Contains(query.Symbol.ToLower()));
+        }
+        if (!string.IsNullOrEmpty(query.CompanyName))
+        {
+            data = data.Where(s => s.CompanyName.Contains(query.CompanyName.ToLower()));
+        }
+        return await data.ToListAsync();
     }
 
     public async Task<Stock?> GetStock(int id)
     {
-        var data = await _context.Stock.Include(c=>c.Comments).FirstOrDefaultAsync(c => c.Id == id);
+        var data = await _context.Stock.Include(c => c.Comments).FirstOrDefaultAsync(c => c.Id == id);
         return data;
     }
 

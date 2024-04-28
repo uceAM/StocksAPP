@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StocksAPI.Dto.StockDto;
+using StocksAPI.Helpers;
 using StocksAPI.Interfaces;
 using StocksAPI.Mapper;
 
@@ -17,13 +18,13 @@ public class StockController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllStocks()
+    public async Task<IActionResult> GetAllStocks([FromQuery]StockQueryObject query)
     {
         if(!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var _ = await _stockService.GetAllStock();
+        var _ = await _stockService.GetAllStock(query);
         var data = _.Select(a => a.ToStockDto());
         return Ok(data);
     }
