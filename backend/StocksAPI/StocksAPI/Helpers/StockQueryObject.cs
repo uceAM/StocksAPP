@@ -9,5 +9,7 @@ namespace StocksAPI.Helpers
         public string? Symbol { get; set; } = null;
         [MaxLength(20, ErrorMessage = "Company Name cannot be over 20 charcaters long")]
         public string? CompanyName { get; set; } = null;
+        public string? SortBy { get; set; } = null;
+        public bool SortOrder { get; set; }
     }
 }

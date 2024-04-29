@@ -26,13 +26,28 @@ public class StockService : IStockService
     {
         var data = _context.Stock.Include(c => c.Comments).AsQueryable();
         // Filtering based on query params
-        if (!string.IsNullOrEmpty(query.Symbol))
+        if (!string.IsNullOrWhiteSpace(query.Symbol))
         {
             data = data.Where(s => s.Symbol.Contains(query.Symbol.ToLower()));
         }
-        if (!string.IsNullOrEmpty(query.CompanyName))
+        if (!string.IsNullOrWhiteSpace(query.CompanyName))
         {
             data = data.Where(s => s.CompanyName.Contains(query.CompanyName.ToLower()));
+        }
+        if (!string.IsNullOrWhiteSpace(query.SortBy))
+        {
+            if (query.SortBy.Equals("Symbol", StringComparison.OrdinalIgnoreCase))
+            {
+                data = query.SortOrder ? data.OrderByDescending(s => s.Symbol) : data.OrderBy(s => s.Symbol);
+            }
+            else
+            {
+                data = query.SortOrder ? data.OrderByDescending(s => s.CompanyName) : data.OrderBy(s => s.CompanyName);
+            }
+        }
+        else
+        {
+            data = query.SortOrder ? data.OrderByDescending(s => s.Id) : data.OrderBy(s => s.Id);
         }
         return await data.ToListAsync();
     }
