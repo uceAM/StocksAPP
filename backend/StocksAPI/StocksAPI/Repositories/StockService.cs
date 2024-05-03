@@ -24,6 +24,7 @@ public class StockService : IStockService
 
     public async Task<List<Stock>> GetAllStock(StockQueryObject query)
     {
+        var PageCalc = query.PageNumber * query.PageSize;
         var data = _context.Stock.Include(c => c.Comments).AsQueryable();
         // Filtering based on query params
         if (!string.IsNullOrWhiteSpace(query.Symbol))
@@ -49,7 +50,7 @@ public class StockService : IStockService
         {
             data = query.SortOrder ? data.OrderByDescending(s => s.Id) : data.OrderBy(s => s.Id);
         }
-        return await data.ToListAsync();
+        return await data.Skip(PageCalc).Take(query.PageSize).ToListAsync();
     }
 
     public async Task<Stock?> GetStock(int id)
