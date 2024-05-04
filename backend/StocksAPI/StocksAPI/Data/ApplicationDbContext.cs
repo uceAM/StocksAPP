@@ -8,7 +8,7 @@ using System;
 
 namespace StocksAPI.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<WebUser>
 {
     public ApplicationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
     {
@@ -22,7 +22,7 @@ public class ApplicationDbContext : IdentityDbContext
         {
             new IdentityRole() //standard syntax for creating objects
             {
-                Name = "User",
+                Name = "user",
                 NormalizedName = "USER",
             },
             new IdentityRole //object initiator no paranthesis
