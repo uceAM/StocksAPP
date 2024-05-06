@@ -5,7 +5,7 @@ namespace StocksAPI.Dto.Account
     public class NewUserDto
     {
         [Required]
-        public string? Name { get; set; }
+        public string? UserName { get; set; }
         [Required]
         [EmailAddress]
         public string? Email { get; set; }

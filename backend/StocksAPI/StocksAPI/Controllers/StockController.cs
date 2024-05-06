@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StocksAPI.Dto.StockDto;
 using StocksAPI.Helpers;
 using StocksAPI.Interfaces;
@@ -18,6 +19,7 @@ public class StockController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAllStocks([FromQuery]StockQueryObject query)
     {
         if(!ModelState.IsValid)
