@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StocksAPI.Dto.Account;
+using StocksAPI.Interfaces;
 using StocksAPI.Models;
 
 namespace StocksAPI.Controllers
@@ -10,9 +11,11 @@ namespace StocksAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<WebUser> _userManager;
-        public AccountController(UserManager<WebUser> accountManager)
+        private readonly ITokenService _tokenService;
+        public AccountController(UserManager<WebUser> accountManager, ITokenService tokenService)
         {
             _userManager = accountManager;
+            _tokenService = tokenService;
         }
         [HttpPost("register")]
         public async Task<IActionResult> CreateAccount([FromBody] NewUserDto newUser)
@@ -42,7 +45,12 @@ namespace StocksAPI.Controllers
                     return StatusCode(500, createdRole.Errors);
                 }
 
-                return Ok("User Created");
+                return Ok(new UserTokenDto()
+                {
+                    Username = creatingUser.UserName,
+                    Email = creatingUser.Email,
+                    Token = _tokenService.CreateToken(creatingUser),
+                });
             }
             catch (Exception e)
             {
