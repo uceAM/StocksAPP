@@ -16,6 +16,16 @@ public class ApplicationDbContext : IdentityDbContext<WebUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.Entity<Portfolio>(x => x.HasKey(p => new { p.UserId, p.StockId }));
+
+        builder.Entity<Portfolio>()
+            .HasOne(u => u.User)
+            .WithMany(p => p.Portfolios)
+            .HasForeignKey(p => p.UserId);
+        builder.Entity<Portfolio>()
+            .HasOne(s => s.Stock)
+            .WithMany(p=>p.Portfolios)
+            .HasForeignKey(p => p.StockId);
 
         List<IdentityRole> roles = new()
         {
@@ -32,6 +42,7 @@ public class ApplicationDbContext : IdentityDbContext<WebUser>
         };
         builder.Entity<IdentityRole>().HasData(roles);
     }
-    public DbSet<Stock> Stock { get; set; }
-    public DbSet<Comment> Comment { get; set; }
+    public DbSet<Stock> Stocks { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<Portfolio> Portfolios { get; set; }
 }

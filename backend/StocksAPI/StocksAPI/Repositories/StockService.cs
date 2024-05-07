@@ -17,7 +17,7 @@ public class StockService : IStockService
 
     public async Task<bool> AddStock(Stock stock)
     {
-        await _context.Stock.AddAsync(stock);
+        await _context.Stocks.AddAsync(stock);
         await _context.SaveChangesAsync();
         return true;
     }
@@ -25,7 +25,7 @@ public class StockService : IStockService
     public async Task<List<Stock>> GetAllStock(StockQueryObject query)
     {
         var PageCalc = query.PageNumber * query.PageSize;
-        var data = _context.Stock.Include(c => c.Comments).AsQueryable();
+        var data = _context.Stocks.Include(c => c.Comments).AsQueryable();
         // Filtering based on query params
         if (!string.IsNullOrWhiteSpace(query.Symbol))
         {
@@ -55,7 +55,7 @@ public class StockService : IStockService
 
     public async Task<Stock?> GetStock(int id)
     {
-        var data = await _context.Stock.Include(c => c.Comments).FirstOrDefaultAsync(c => c.Id == id);
+        var data = await _context.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(c => c.Id == id);
         return data;
     }
 
@@ -79,6 +79,6 @@ public class StockService : IStockService
     }
     public async Task<bool> StockExists(int id)
     {
-        return await _context.Stock.AnyAsync(x => x.Id == id);
+        return await _context.Stocks.AnyAsync(x => x.Id == id);
     }
 }

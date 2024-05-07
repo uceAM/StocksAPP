@@ -2,6 +2,7 @@
 
 namespace StocksAPI.Models;
 
+[Table("Stocks")]
 public class Stock
 {
     public int Id { get; set; }
@@ -14,5 +15,6 @@ public class Stock
     public string Industry { get; set; } = string.Empty;
     public long MarketCap { get; set; }
     public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
+    public IEnumerable<Portfolio> Portfolios { get; set; } = new List<Portfolio>();
 
 }

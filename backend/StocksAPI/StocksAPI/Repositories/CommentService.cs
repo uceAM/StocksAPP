@@ -16,24 +16,24 @@ public class CommentService : ICommentService
     }
     public async Task<bool> AddComment(Comment comment)
     {
-        await _context.Comment.AddAsync(comment);
+        await _context.Comments.AddAsync(comment);
         await _context.SaveChangesAsync();
         return true;
     }
 
     public async Task<List<Comment>> GetAllComments()
     {
-        return await _context.Comment.ToListAsync();
+        return await _context.Comments.ToListAsync();
     }
 
     public async Task<Comment?> GetComment(int id)
     {
-        return await _context.Comment.FindAsync(id);
+        return await _context.Comments.FindAsync(id);
     }
 
     public async Task<Comment> RemoveComment(Comment comment)
     {
-        _context.Comment.Remove(comment);
+        _context.Comments.Remove(comment);
         await _context.SaveChangesAsync();
         return comment;
     }
