@@ -81,4 +81,9 @@ public class StockService : IStockService
     {
         return await _context.Stocks.AnyAsync(x => x.Id == id);
     }
+
+    public async Task<Stock?> GetStockBySymbol(string symbol)
+    {
+        return await _context.Stocks.FirstOrDefaultAsync(x => x.Symbol == symbol);
+    }
 }
