@@ -39,7 +39,7 @@ public class PortfolioController : ControllerBase
     }
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> CreatePortfolio([FromBody] string Symbol)
+    public async Task<IActionResult> CreatePortfolio([FromQuery] string Symbol)
     {
         string? username = User.GetUsername();
         if (string.IsNullOrEmpty(username))
@@ -57,7 +57,7 @@ public class PortfolioController : ControllerBase
             return BadRequest("Stock not found");
         }
         var userPortfolio = await _portfolioService.GetPortfolio(user);
-        if(userPortfolio.Any(x =>x.Symbol.ToLower() == Symbol.ToLower()))
+        if (userPortfolio.Any(x => x.Symbol.ToLower() == Symbol.ToLower()))
         {
             return BadRequest($"User portfolio already contains {Symbol.ToUpper()}");
         }
@@ -69,5 +69,37 @@ public class PortfolioController : ControllerBase
         var CreatedPortfolio = await _portfolioService.AddPortfolio(portfolio);
 
         return StatusCode(201);
+    }
+    [HttpDelete]
+    [Authorize]
+    public async Task<IActionResult> DeletePortfolio([FromQuery] string Symbol)
+    {
+        string? username = User.GetUsername();
+        if (string.IsNullOrEmpty(username))
+        {
+            return Unauthorized("Unregistered User");
+        }
+        var user = await _userManager.FindByNameAsync(username);
+        if (user == null)
+        {
+            return BadRequest("User not found");
+        }
+        var stock = await _stockService.GetStockBySymbol(Symbol);
+        if (stock == null)
+        {
+            return BadRequest("Stock not found");
+        }
+        var userPortfolio = await _portfolioService.GetPortfolio(user);
+        var selectedPortfolio = userPortfolio.FirstOrDefault(x => x.Symbol.ToLower() == Symbol.ToLower());
+        if (selectedPortfolio != null)
+        {
+            await _portfolioService.RemovePortfolio(user.Id, selectedPortfolio.Symbol);
+        }
+        else
+        {
+            return BadRequest($"User portfolio does not contain contain {Symbol.ToUpper()}");
+        }
+
+        return Ok(selectedPortfolio);
     }
 }

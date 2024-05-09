@@ -34,4 +34,17 @@ public class PortfolioService : IPortfolioService
                 MarketCap = stock.Stock.MarketCap,
             }).ToListAsync();
     }
+
+    public async Task<Portfolio>? RemovePortfolio(string userId, string Symbol)
+    {
+        var toRemove = _context.Portfolios.FirstOrDefault(x=>x.UserId == userId && x.Stock.Symbol == Symbol);
+        if (toRemove == null)
+        {
+            return null;
+        }
+        _context.Portfolios.Remove(toRemove);
+        await _context.SaveChangesAsync();
+        return toRemove;
+
+    }
 }
