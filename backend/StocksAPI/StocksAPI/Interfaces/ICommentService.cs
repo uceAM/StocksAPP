@@ -6,7 +6,7 @@ namespace StocksAPI.Interfaces;
 
 public interface ICommentService
 {
-    public Task<List<Comment>> GetAllComments();
+    public Task<List<Comment>> GetAllComments(CommentQueryObject options);
     public Task<Comment?> GetComment(int id);
     public Task<bool> AddComment(Comment comment);
     public Task<Comment> RemoveComment(Comment comment);

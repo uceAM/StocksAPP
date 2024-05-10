@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StocksAPI.Data;
 using StocksAPI.Dto.CommentDto;
+using StocksAPI.Helpers;
 using StocksAPI.Interfaces;
 using StocksAPI.Models;
 
@@ -21,9 +22,18 @@ public class CommentService : ICommentService
         return true;
     }
 
-    public async Task<List<Comment>> GetAllComments()
+    public async Task<List<Comment>> GetAllComments(CommentQueryObject options)
     {
-        return await _context.Comments.Include(a => a.User).ToListAsync();
+        var query = _context.Comments.Include(a => a.User).AsQueryable();
+        if (!string.IsNullOrEmpty(options.Symbol))
+        {
+            query = query.Where(c => c.Stock.Symbol == options.Symbol);
+        }
+        if (options.SortOrder)
+        {
+            query = query.OrderByDescending(a => a.CreatedOn);
+        }
+        return await query.ToListAsync();
     }
 
     public async Task<Comment?> GetComment(int id)

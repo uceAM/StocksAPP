@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StocksAPI.Dto.CommentDto;
 using StocksAPI.Extensions;
+using StocksAPI.Helpers;
 using StocksAPI.Interfaces;
 using StocksAPI.Mappers.CommentMappers;
 using StocksAPI.Models;
@@ -23,15 +25,13 @@ public class CommentController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
-    public async Task<IActionResult> GetAllComments()
+    public async Task<IActionResult> GetAllComments([FromQuery]CommentQueryObject options)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        var listComment = await _commentService.GetAllComments();
+
+        var listComment = await _commentService.GetAllComments(options);
         var data = listComment.Select(a => a.ToCommentDto());
         return Ok(data);
     }
