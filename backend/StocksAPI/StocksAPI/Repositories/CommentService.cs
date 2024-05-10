@@ -23,12 +23,12 @@ public class CommentService : ICommentService
 
     public async Task<List<Comment>> GetAllComments()
     {
-        return await _context.Comments.ToListAsync();
+        return await _context.Comments.Include(a => a.User).ToListAsync();
     }
 
     public async Task<Comment?> GetComment(int id)
     {
-        return await _context.Comments.FindAsync(id);
+        return await _context.Comments.Include(a => a.User).FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<Comment> RemoveComment(Comment comment)

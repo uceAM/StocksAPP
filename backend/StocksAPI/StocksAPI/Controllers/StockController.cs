@@ -20,9 +20,9 @@ public class StockController : ControllerBase
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> GetAllStocks([FromQuery]StockQueryObject query)
+    public async Task<IActionResult> GetAllStocks([FromQuery] StockQueryObject query)
     {
-        if(!ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -61,7 +61,7 @@ public class StockController : ControllerBase
             return BadRequest();
         }
         var model = newData.ToStock();
-        if(await _stockService.AddStock(model))
+        if (await _stockService.AddStock(model))
             return CreatedAtAction(nameof(GetStockById), new { model.Id }, model.ToStockDto());
         return BadRequest();
     }
@@ -71,7 +71,7 @@ public class StockController : ControllerBase
     [ProducesResponseType(statusCode: 400)]
     public async Task<IActionResult> UpdateStocks([FromRoute] int id, [FromBody] CreateStockDto updateData)
     {
-        if (!ModelState.IsValid || updateData ==null)
+        if (!ModelState.IsValid || updateData == null)
         {
             return BadRequest(ModelState);
         }
@@ -80,7 +80,7 @@ public class StockController : ControllerBase
         {
             return BadRequest();
         }
-        if(await _stockService.UpdateStock(dbStock, updateData))
+        if (await _stockService.UpdateStock(dbStock, updateData))
             return NoContent();
         return BadRequest();
     }

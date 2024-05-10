@@ -25,7 +25,7 @@ public class StockService : IStockService
     public async Task<List<Stock>> GetAllStock(StockQueryObject query)
     {
         var PageCalc = query.PageNumber * query.PageSize;
-        var data = _context.Stocks.Include(c => c.Comments).AsQueryable();
+        var data = _context.Stocks.Include(c => c.Comments).ThenInclude(a => a.User).AsQueryable();
         // Filtering based on query params
         if (!string.IsNullOrWhiteSpace(query.Symbol))
         {
@@ -55,7 +55,7 @@ public class StockService : IStockService
 
     public async Task<Stock?> GetStock(int id)
     {
-        var data = await _context.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(c => c.Id == id);
+        var data = await _context.Stocks.Include(c => c.Comments).ThenInclude(a => a.User).FirstOrDefaultAsync(c => c.Id == id);
         return data;
     }
 
